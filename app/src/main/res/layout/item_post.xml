@@ -1,0 +1,32 @@
+<!-- item_post.xml -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <!-- Define your data variables here -->
+        <variable
+            name="news"
+            type="com.app.zevotest.data.remote.models.Article" />
+    </data>
+
+    <!-- Layout for a single post item -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{news.title}"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{news.description}" />
+    </LinearLayout>
+</layout>
