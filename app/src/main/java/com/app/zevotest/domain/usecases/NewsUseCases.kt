@@ -9,5 +9,5 @@ import retrofit2.Response
 
 interface NewsUseCases {
 
-    suspend fun invock(): Flow<UIState<List<Article>>>
+    suspend fun invock(): Flow<UIState<Flow<List<Article>>>>
 }

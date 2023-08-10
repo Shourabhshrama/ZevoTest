@@ -17,6 +17,7 @@ import com.app.zevotest.ui.UIState.UIState
 import com.app.zevotest.ui.adapter.NewsAdapter
 import com.app.zevotest.ui.viewmodel.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -67,13 +68,18 @@ class MainActivity : AppCompatActivity() {
         binding.content.progress.visibility = View.VISIBLE
     }
 
-    private fun showSuccessState(data: List<Article>) {
+    private fun showSuccessState(data: Flow<List<Article>>) {
         binding.content.progress.visibility = View.GONE
         var layoutManager = LinearLayoutManager(this)
         binding.content.recyclerviewPost.layoutManager = layoutManager
 
-        var postAdapter = NewsAdapter(data)
-        binding.content.recyclerviewPost.adapter = postAdapter
+        lifecycleScope.launch {
+            data.collect { item ->
+                var postAdapter = NewsAdapter(item)
+                binding.content.recyclerviewPost.adapter = postAdapter
+            }
+        }
+
 
         val dividerItemDecoration = DividerItemDecoration(
             binding.content.recyclerviewPost.getContext(),

@@ -9,5 +9,5 @@ import retrofit2.Response
 
 interface NewsRepository {
 
-    suspend fun getNews(): Flow<UIState<List<Article>>>
+    suspend fun getNews(): Flow<UIState<Flow<List<Article>>>>
 }

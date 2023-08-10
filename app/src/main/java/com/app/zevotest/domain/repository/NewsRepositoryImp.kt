@@ -1,7 +1,7 @@
 package com.app.zevotest.domain.repository
 
 
-
+import com.app.zevotest.data.local.dao.NewsDao
 import com.app.zevotest.data.remote.datasource.RemoteDataSource
 import com.app.zevotest.data.remote.datasource.RemoteDataSourceImp
 import com.app.zevotest.data.remote.models.Article
@@ -15,25 +15,23 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class NewsRepositoryImp @Inject constructor(
-    private val remoteDataSource: RemoteDataSourceImp
-
+    private val remoteDataSource: RemoteDataSourceImp,
+    private val localDataStore: NewsDao
 ) : NewsRepository {
-    override suspend fun getNews(): Flow<UIState<List<Article>>> {
+    override suspend fun getNews(): Flow<UIState<Flow<List<Article>>>> {
         return flow {
             emit(UIState.Loading)
 
             try {
                 val articles = remoteDataSource.getNews()
-                // localDataSource.insertArticles(articles) // Cache articles locally
-                //  val cachedArticles = localDataSource.getArticles()
-                emit(UIState.Success(articles))
+                localDataStore.insertLit(articles)
+                var cacheData = localDataStore.getArticle()
+                emit(UIState.Success(cacheData))
             } catch (e: Exception) {
-                //  val cachedArticles = localDataSource.getArticles()
-//                if (cachedArticles.isNotEmpty()) {
-//                    emit(UIState.Success(cachedArticles))
-//                } else {
+
+
                 emit(UIState.Failure(e.message ?: "Something went Wrong "))
-                // }
+
             }
         }.flowOn(Dispatchers.IO)
 

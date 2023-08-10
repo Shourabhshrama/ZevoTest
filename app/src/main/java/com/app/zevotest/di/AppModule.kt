@@ -1,13 +1,17 @@
 package com.app.zevotest.di
 
 
+import android.content.Context
 import com.app.zevotest.BASE_URL
 import com.app.zevotest.BuildConfig
+import com.app.zevotest.data.local.dao.NewsDao
+import com.app.zevotest.data.local.db.AppDataBase
 
 import com.app.zevotest.data.remote.api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
@@ -44,7 +48,17 @@ object AppModule {
     }
 
 
+    @Provides
+    @Singleton
+    fun provideAppDataBase(@ApplicationContext context: Context): AppDataBase {
+        return AppDataBase.getInstance(context)
+    }
 
+    @Provides
+    @Singleton
+    fun provideNewDao(appDataBase: AppDataBase): NewsDao {
+        return appDataBase.getNewsFao()
+    }
 
 
 }

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class NewsUseCaseImp @Inject constructor(private val repository: NewsRepositoryImp) : NewsUseCases {
-    override suspend fun invock(): Flow<UIState<List<Article>>> {
+    override suspend fun invock(): Flow<UIState<Flow<List<Article>>>>{
         return repository.getNews()
     }
 }

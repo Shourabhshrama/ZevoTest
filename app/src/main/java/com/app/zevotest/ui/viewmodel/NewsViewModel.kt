@@ -8,6 +8,7 @@ import com.app.zevotest.domain.usecases.NewsUseCaseImp
 import com.app.zevotest.domain.usecases.NewsUseCases
 import com.app.zevotest.ui.UIState.UIState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emitAll
@@ -18,8 +19,8 @@ import javax.inject.Inject
 class NewsViewModel @Inject constructor(private val useCases: NewsUseCaseImp) : ViewModel() {
 
 
-    private var _postData = MutableStateFlow<UIState<List<Article>>>(UIState.Loading)
-    val postData: StateFlow<UIState<List<Article>>>
+    private var _postData = MutableStateFlow<UIState<Flow<List<Article>>>>(UIState.Loading)
+    val postData: StateFlow<UIState<Flow<List<Article>>>>
         get() = _postData
 
 
